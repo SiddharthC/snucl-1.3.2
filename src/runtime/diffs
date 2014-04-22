@@ -1,0 +1,61 @@
+diff -r ./CLPlatform.cpp /home/gangwon/SnuCL/src/runtime/CLPlatform.cpp
+69a70,81
+> #ifdef XEON_PHI_PLATFORM
+> #include "phi/XeonPhiDevice.h"
+> #define SCHEDULER_SINGLE
+> #define ISSUER_PER_DEVICE_BLOCKING
+> #endif
+> 
+> #ifdef XEON_PHI_DRIVER_PLATFORM
+> #include "cpu/CPUDevice.h"
+> #define SCHEDULER_SINGLE
+> #define ISSUER_PER_DEVICE_BLOCKING
+> #endif
+> 
+77a90,96
+> #ifdef CLUSTER_SVM_PLATFORM
+> #include <mpi.h>
+> #include "SnuCL_SVM/svm_device.h"
+> #define SCHEDULER_CLUSTER
+> #define ISSUER_CLUSTER
+> #endif // CLUSTER_SVM_PLATFORM
+> 
+86a106,107
+> #elif defined(XEON_PHI_PLATFORM)
+>   name_ = "SnuCL Xeon Phi";
+88a110,111
+> #elif defined(CLUSTER_SVM_PLATFORM)
+>   name_ = "SnuCL SVM Cluster";
+98a122,123
+> #elif defined(XEON_PHI_PLATFORM)
+>   default_device_type_ = CL_DEVICE_TYPE_ACCELERATOR;
+102c127
+< #ifdef CLUSTER_PLATFORM
+---
+> #if defined(CLUSTER_PLATFORM) || defined(CLUSTER_SVM_PLATFORM)
+153a179,182
+> #elif defined(XEON_PHI_PLATFORM)
+>   XeonPhiDevice::CreateDevices();
+> #elif defined(XEON_PHI_DRIVER_PLATFORM)
+>   CPUDevice::CreateDevices();
+158a188,190
+> #elif defined(CLUSTER_SVM_PLATFORM)
+>   if(is_host_)
+>     SVMDevice::CreateDevices();
+Only in /home/gangwon/SnuCL/src/runtime/cluster: ClusterDevice.o
+Only in /home/gangwon/SnuCL/src/runtime/cluster: ClusterDriver.o
+Only in /home/gangwon/SnuCL/src/runtime/cluster: ClusterMessage.o
+Only in /home/gangwon/SnuCL/src/runtime/cluster: .svn
+Only in /home/gangwon/SnuCL/src/runtime/cpu: CPUComputeUnit.o
+Only in /home/gangwon/SnuCL/src/runtime/cpu: CPUDevice.o
+Only in /home/gangwon/SnuCL/src/runtime/cpu: .svn
+Only in /home/gangwon/SnuCL/src/runtime: .deps
+Only in .: diffs
+Only in /home/gangwon/SnuCL/src/runtime/legacy: LegacyDevice.o
+Only in /home/gangwon/SnuCL/src/runtime/legacy: .svn
+Only in /home/gangwon/SnuCL/src/runtime: Makefile.cluster_svm
+Only in /home/gangwon/SnuCL/src/runtime: Makefile.xeon_phi
+Only in /home/gangwon/SnuCL/src/runtime: Makefile.xeon_phi_driver
+Only in /home/gangwon/SnuCL/src/runtime: objs
+Only in /home/gangwon/SnuCL/src/runtime: phi
+Only in /home/gangwon/SnuCL/src/runtime: .svn
